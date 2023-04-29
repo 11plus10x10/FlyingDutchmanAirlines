@@ -111,6 +111,9 @@ public class CustomerRepositoryTests
     {
         var customer = await _repository.GetCustomerByName("Lewis Hamilton");
         Assert.IsNotNull(customer);
+
+        var dbCustomer = await _context.Customers.FirstAsync();
+        Assert.AreEqual(dbCustomer, dbCustomer);
     }
 
     [TestMethod]
