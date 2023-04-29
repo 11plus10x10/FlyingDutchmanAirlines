@@ -1,4 +1,6 @@
 using FlyingDutchmanAirlines.DatabaseLayer;
+using FlyingDutchmanAirlines.DatabaseLayer.Models;
+using FlyingDutchmanAirlines.Exceptions;
 using FlyingDutchmanAirlines.RepositoryLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,11 +14,15 @@ public class CustomerRepositoryTests
     private CustomerRepository _repository;
 
     [TestInitialize]
-    public void TestInitialize()
+    public async Task TestInitialize()
     {
 
         var dbOptBuilder = GetDbOptionsBuilder();
         _context = new FlyingDutchmanAirlinesContext(dbOptBuilder.Options);
+
+        var testCustomer = new Customer("Lewis Hamilton");
+        _context.Add(testCustomer);
+        await _context.SaveChangesAsync();
 
         _repository = new CustomerRepository(_context);
         Assert.IsNotNull(_repository);
@@ -98,5 +104,22 @@ public class CustomerRepositoryTests
         
         var result = await repository.CreateCustomer("Willy Wonka");
         Assert.IsFalse(result);
+    }
+
+    [TestMethod]
+    public async Task GetCustomerByNameSuccess()
+    {
+        var customer = await _repository.GetCustomerByName("Lewis Hamilton");
+        Assert.IsNotNull(customer);
+    }
+
+    [TestMethod]
+    [DataRow("")]
+    [DataRow("#")]
+    [DataRow(null)]
+    [ExpectedException(typeof(CustomerNotFoundException))]
+    public async Task GetCustomerByNameFailureInvalidName(string name)
+    {
+        await _repository.GetCustomerByName(name);
     }
 }
