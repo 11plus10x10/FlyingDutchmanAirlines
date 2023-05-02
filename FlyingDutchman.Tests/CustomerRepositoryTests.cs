@@ -1,3 +1,4 @@
+using FlyingDutchman.Tests.Utils;
 using FlyingDutchmanAirlines.DatabaseLayer;
 using FlyingDutchmanAirlines.DatabaseLayer.Models;
 using FlyingDutchmanAirlines.Exceptions;
@@ -8,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace FlyingDutchman.Tests;
 
 [TestClass]
-public class CustomerRepositoryTests
+public class CustomerRepositoryTests : RepositoryTester
 {
     private FlyingDutchmanAirlinesContext _context;
     private CustomerRepository _repository;
@@ -17,8 +18,7 @@ public class CustomerRepositoryTests
     public async Task TestInitialize()
     {
 
-        var dbOptBuilder = GetDbOptionsBuilder();
-        _context = new FlyingDutchmanAirlinesContext(dbOptBuilder.Options);
+        _context = GetContext();
 
         var testCustomer = new Customer("Lewis Hamilton");
         _context.Add(testCustomer);
