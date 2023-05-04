@@ -5,25 +5,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlyingDutchmanAirlines.RepositoryLayer;
 
-public class CustomerRepository
+public class CustomerRepository : RepositoryBase
 {
-    private readonly FlyingDutchmanAirlinesContext _context;
-
-    public CustomerRepository(FlyingDutchmanAirlinesContext context)
+    public CustomerRepository(FlyingDutchmanAirlinesContext context) : base(context)
     {
-        _context = context;
     }
-    
+
     public async Task<bool> CreateCustomer(string name)
     {
         if (NameIsInvalid(name)) return false;
         try
         {
             var newCustomer = new Customer(name);
-            await using (_context)
+            await using (Context)
             {
-                _context.Customers.Add(newCustomer);
-                await _context.SaveChangesAsync();
+                Context.Customers.Add(newCustomer);
+                await Context.SaveChangesAsync();
             }
         }
         catch (Exception e)
@@ -41,14 +38,18 @@ public class CustomerRepository
         {
             throw new CustomerNotFoundException();
         }
-        
-        return await _context.Customers.FirstOrDefaultAsync(c => c.Name == name)
+
+        return await Context.Customers.FirstOrDefaultAsync(c => c.Name == name)
                ?? throw new CustomerNotFoundException();
     }
 
     private bool NameIsInvalid(string name)
     {
-        var specialCharacters = new[] { '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', ',', '.', '?', '"', ':', '{', '}', '|', '<', '>', '=', '+', '/', '\\', '-', '_', '[', ']' };
+        var specialCharacters = new[]
+        {
+            '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', ',', '.', '?', '"', ':', '{', '}', '|', '<', '>', '=',
+            '+', '/', '\\', '-', '_', '[', ']'
+        };
         return string.IsNullOrEmpty(name) || name.Any(x => specialCharacters.Contains(x));
     }
 }

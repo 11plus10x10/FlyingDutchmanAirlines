@@ -4,15 +4,11 @@ using FlyingDutchmanAirlines.Exceptions;
 
 namespace FlyingDutchmanAirlines.RepositoryLayer;
 
-public class BookingRepository
+public class BookingRepository : RepositoryBase
 {
-    private readonly FlyingDutchmanAirlinesContext _context;
-
-    public BookingRepository(FlyingDutchmanAirlinesContext context)
+    public BookingRepository(FlyingDutchmanAirlinesContext context) : base(context)
     {
-        _context = context;
     }
-
     public async Task CreateBooking(int customerId, int flightNumber)
     {
         if (customerId < 0 || flightNumber < 0)
@@ -26,8 +22,8 @@ public class BookingRepository
 
         try
         {
-            _context.Bookings.Add(newBooking);
-            await _context.SaveChangesAsync();
+            Context.Bookings.Add(newBooking);
+            await Context.SaveChangesAsync();
         }
         catch (Exception e)
         {
@@ -35,4 +31,5 @@ public class BookingRepository
             throw new CouldNotAddBookingToDatabaseException();
         }
     }
+    
 }
