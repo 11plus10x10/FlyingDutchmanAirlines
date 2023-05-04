@@ -1,5 +1,6 @@
 using FlyingDutchman.Tests.Utils;
 using FlyingDutchmanAirlines.DatabaseLayer;
+using FlyingDutchmanAirlines.Exceptions;
 using FlyingDutchmanAirlines.RepositoryLayer;
 
 namespace FlyingDutchman.Tests;
@@ -13,13 +14,21 @@ public class BookingRepositoryTests : RepositoryTester
     [TestInitialize]
     public async Task TestInitialize()
     {
-        _context = GetContext();
+        _context = GetContext(useStub: true);
+        await _context.Database.EnsureDeletedAsync();
         _repository = new BookingRepository(_context);
         Assert.IsNotNull(_repository);
     }
-    
+
     [TestMethod]
-    public void CreateBookingSuccess() { }
+    public async Task CreateBookingSuccess()
+    {
+        await _repository.CreateBooking(1, 0);
+        var booking = _context.Bookings.FirstOrDefault();
+        Assert.IsNotNull(booking);
+        Assert.AreEqual(1, booking.CustomerId);
+        Assert.AreEqual(0, booking.FlightNumber);
+    }
 
     [TestMethod]
     [DataRow(-1, 0)]
@@ -29,5 +38,12 @@ public class BookingRepositoryTests : RepositoryTester
     public async Task CreateBookingFailureInvalidInputs(int customerId, int flightNumber)
     {
         await _repository.CreateBooking(customerId, flightNumber);
+    }
+
+    [TestMethod]
+    [ExpectedException(typeof(CouldNotAddBookingToDatabaseException))]
+    public async Task CreateBookingFailureDatabaseError()
+    {
+        await _repository.CreateBooking(0, 1);
     }
 }

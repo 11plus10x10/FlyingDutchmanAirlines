@@ -1,3 +1,4 @@
+using FlyingDutchman.Tests.Stubs;
 using FlyingDutchmanAirlines.DatabaseLayer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,11 +7,14 @@ namespace FlyingDutchman.Tests.Utils;
 
 public class RepositoryTester
 {
-    private protected FlyingDutchmanAirlinesContext GetContext()
+    private protected FlyingDutchmanAirlinesContext GetContext(bool useStub = false)
     {
         var dbOptBuilder = GetDbOptionsBuilder();
-        var context = new FlyingDutchmanAirlinesContext(dbOptBuilder.Options);
-        
+        // var context = new FlyingDutchmanAirlinesContextStub(dbOptBuilder.Options);
+        var context = useStub
+            ? new FlyingDutchmanAirlinesContext(dbOptBuilder.Options)
+            : new FlyingDutchmanAirlinesContextStub(dbOptBuilder.Options);
+
         return context;
     }
     

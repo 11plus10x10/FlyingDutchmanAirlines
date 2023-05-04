@@ -18,7 +18,7 @@ public class CustomerRepositoryTests : RepositoryTester
     public async Task TestInitialize()
     {
 
-        _context = GetContext();
+        _context = GetContext(useStub: true);
 
         var testCustomer = new Customer("Lewis Hamilton");
         _context.Add(testCustomer);
@@ -27,20 +27,7 @@ public class CustomerRepositoryTests : RepositoryTester
         _repository = new CustomerRepository(_context);
         Assert.IsNotNull(_repository);
     }
-
-    private static DbContextOptionsBuilder<FlyingDutchmanAirlinesContext> GetDbOptionsBuilder()
-    {
-        var dbName = Guid.NewGuid().ToString();
-        var serviceProvider = new ServiceCollection()
-            .AddEntityFrameworkInMemoryDatabase()
-            .BuildServiceProvider();
-        var builder = new DbContextOptionsBuilder<FlyingDutchmanAirlinesContext>();
-        builder.UseInMemoryDatabase(dbName)
-            .UseInternalServiceProvider(serviceProvider);
-
-        return builder;
-    }
-
+    
     [TestMethod]
     public async Task CreateCustomerSuccess()
     {
