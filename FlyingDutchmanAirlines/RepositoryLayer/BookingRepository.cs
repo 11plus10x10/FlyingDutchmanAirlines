@@ -1,6 +1,7 @@
 using FlyingDutchmanAirlines.DatabaseLayer;
 using FlyingDutchmanAirlines.DatabaseLayer.Models;
 using FlyingDutchmanAirlines.Exceptions;
+using FlyingDutchmanAirlines.Utils;
 
 namespace FlyingDutchmanAirlines.RepositoryLayer;
 
@@ -9,12 +10,11 @@ public class BookingRepository : RepositoryBase
     public BookingRepository(FlyingDutchmanAirlinesContext context) : base(context)
     {
     }
+
     public async Task CreateBooking(int customerId, int flightNumber)
     {
-        if (customerId < 0 || flightNumber < 0)
+        if (InputValidator.IdIsInvalid(customerId, flightNumber))
         {
-            Console.WriteLine(
-                $"Argument exception in CreateBooking! CustomerId = {customerId}, flightNumber = {flightNumber}");
             throw new ArgumentException("Invalid arguments provided");
         }
 
@@ -31,5 +31,4 @@ public class BookingRepository : RepositoryBase
             throw new CouldNotAddBookingToDatabaseException();
         }
     }
-    
 }

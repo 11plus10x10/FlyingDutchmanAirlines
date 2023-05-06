@@ -12,10 +12,9 @@ public class BookingRepositoryTests : RepositoryTester
     private BookingRepository _repository;
 
     [TestInitialize]
-    public async Task TestInitialize()
+    public void TestInitialize()
     {
         _context = GetContext(useStub: true);
-        await _context.Database.EnsureDeletedAsync();
         _repository = new BookingRepository(_context);
         Assert.IsNotNull(_repository);
     }
