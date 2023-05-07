@@ -14,7 +14,7 @@ public class AirportRepositoryTests : RepositoryTester
     [TestInitialize]
     public async Task TestInitialize()
     {
-        _context = GetContext(true);
+        _context = GetContext();
         await _context.Database.EnsureDeletedAsync();
         var airport = new Airport { AirportId = 0, City = "London", Iata = "LHR" };
         _context.Airports.Add(airport);
@@ -46,7 +46,7 @@ public class AirportRepositoryTests : RepositoryTester
         }
         catch (ArgumentException)
         {
-            Assert.IsTrue(outputStream.ToString().Contains("Negative id provided."));
+            Assert.IsTrue(outputStream.ToString().Contains("Invalid arguments provided. id=-1 is negative"));
             throw;
         }
         

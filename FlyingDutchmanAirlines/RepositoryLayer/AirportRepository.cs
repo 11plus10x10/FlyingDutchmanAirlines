@@ -14,7 +14,11 @@ public class AirportRepository : RepositoryBase
 
     public async Task<Airport> GetAirportById(int id)
     {
-        if (InputValidator.IdIsInvalid(id)) throw new ArgumentException("Invalid arguments provided.");
+        if (id.IsNegative())
+        {
+            Console.WriteLine($"Invalid arguments provided. {nameof(id)}={id} is negative");
+            throw new ArgumentException();
+        }
 
         return await Context.Airports.FirstOrDefaultAsync(a => a.AirportId == id)
                ?? throw new AirportNotFoundException();

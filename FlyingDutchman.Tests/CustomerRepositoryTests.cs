@@ -18,7 +18,7 @@ public class CustomerRepositoryTests : RepositoryTester
     public async Task TestInitialize()
     {
 
-        _context = GetContext(useStub: true);
+        _context = GetContext();
 
         var testCustomer = new Customer("Lewis Hamilton");
         _context.Add(testCustomer);

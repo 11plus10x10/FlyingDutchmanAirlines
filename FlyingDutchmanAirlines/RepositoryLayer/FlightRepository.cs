@@ -12,11 +12,14 @@ public class FlightRepository : RepositoryBase
     {
     }
 
-    public async Task<Flight> GetFlightByFlightNumber(int flightNumber)
+    public async Task<Flight> GetFlightByFlightNumber(int flightNumber, int originAirportId, int destinationAirportId)
     {
-        if (InputValidator.IdIsInvalid(flightNumber)) throw new ArgumentException("Invalid Arguments provided");
-        
+        if (ExtensionMethods.AnyIsNegative(flightNumber, originAirportId, destinationAirportId))
+        {
+            throw new ArgumentException("Invalid Arguments provided");
+        }
+
         return await Context.Flights.FirstOrDefaultAsync(f => f.FlightNumber == flightNumber)
-            ?? throw new FlightNotFoundException();
+               ?? throw new FlightNotFoundException();
     }
 }

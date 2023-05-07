@@ -7,13 +7,10 @@ namespace FlyingDutchman.Tests.Utils;
 
 public class RepositoryTester
 {
-    private protected FlyingDutchmanAirlinesContext GetContext(bool useStub = false)
+    private protected FlyingDutchmanAirlinesContext GetContext()
     {
         var dbOptBuilder = GetDbOptionsBuilder();
-        // var context = new FlyingDutchmanAirlinesContextStub(dbOptBuilder.Options);
-        var context = useStub
-            ? new FlyingDutchmanAirlinesContext(dbOptBuilder.Options)
-            : new FlyingDutchmanAirlinesContextStub(dbOptBuilder.Options);
+        var context = new FlyingDutchmanAirlinesContextStub(dbOptBuilder.Options);
 
         return context;
     }

@@ -1,6 +1,7 @@
 using FlyingDutchmanAirlines.DatabaseLayer;
 using FlyingDutchmanAirlines.DatabaseLayer.Models;
 using FlyingDutchmanAirlines.Exceptions;
+using FlyingDutchmanAirlines.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace FlyingDutchmanAirlines.RepositoryLayer;
@@ -13,7 +14,7 @@ public class CustomerRepository : RepositoryBase
 
     public async Task<bool> CreateCustomer(string name)
     {
-        if (NameIsInvalid(name)) return false;
+        if (name.IsNullOrContainsSpecialChars()) return false;
         try
         {
             var newCustomer = new Customer(name);
@@ -34,22 +35,12 @@ public class CustomerRepository : RepositoryBase
 
     public async Task<Customer> GetCustomerByName(string name)
     {
-        if (NameIsInvalid(name))
+        if (name.IsNullOrContainsSpecialChars())
         {
             throw new CustomerNotFoundException();
         }
 
         return await Context.Customers.FirstOrDefaultAsync(c => c.Name == name)
                ?? throw new CustomerNotFoundException();
-    }
-
-    private bool NameIsInvalid(string name)
-    {
-        var specialCharacters = new[]
-        {
-            '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', ',', '.', '?', '"', ':', '{', '}', '|', '<', '>', '=',
-            '+', '/', '\\', '-', '_', '[', ']'
-        };
-        return string.IsNullOrEmpty(name) || name.Any(x => specialCharacters.Contains(x));
     }
 }

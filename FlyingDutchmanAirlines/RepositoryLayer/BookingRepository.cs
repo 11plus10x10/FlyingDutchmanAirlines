@@ -13,7 +13,7 @@ public class BookingRepository : RepositoryBase
 
     public async Task CreateBooking(int customerId, int flightNumber)
     {
-        if (InputValidator.IdIsInvalid(customerId, flightNumber))
+        if (customerId.IsNegative() || flightNumber.IsNegative())
         {
             throw new ArgumentException("Invalid arguments provided");
         }

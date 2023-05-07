@@ -14,7 +14,7 @@ public class BookingRepositoryTests : RepositoryTester
     [TestInitialize]
     public void TestInitialize()
     {
-        _context = GetContext(useStub: true);
+        _context = GetContext();
         _repository = new BookingRepository(_context);
         Assert.IsNotNull(_repository);
     }
@@ -23,6 +23,7 @@ public class BookingRepositoryTests : RepositoryTester
     public async Task CreateBookingSuccess()
     {
         await _repository.CreateBooking(1, 0);
+        await _context.SaveChangesAsync();
         var booking = _context.Bookings.FirstOrDefault();
         Assert.IsNotNull(booking);
         Assert.AreEqual(1, booking.CustomerId);
