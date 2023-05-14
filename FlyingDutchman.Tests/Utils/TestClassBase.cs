@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FlyingDutchman.Tests.Utils;
 
-public class RepositoryTester
+public class TestClassBase
 {
     private protected FlyingDutchmanAirlinesContext GetContext()
     {

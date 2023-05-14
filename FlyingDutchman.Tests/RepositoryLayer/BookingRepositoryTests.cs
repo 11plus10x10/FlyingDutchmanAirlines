@@ -6,7 +6,7 @@ using FlyingDutchmanAirlines.RepositoryLayer;
 namespace FlyingDutchman.Tests;
 
 [TestClass]
-public class BookingRepositoryTests : RepositoryTester
+public class BookingRepositoryTests : TestClassBase
 {
     private FlyingDutchmanAirlinesContext _context;
     private BookingRepository _repository;

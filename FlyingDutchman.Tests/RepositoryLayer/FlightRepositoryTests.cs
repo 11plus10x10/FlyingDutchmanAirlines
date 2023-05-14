@@ -6,7 +6,7 @@ using FlyingDutchmanAirlines.RepositoryLayer;
 namespace FlyingDutchman.Tests;
 
 [TestClass]
-public class FlightRepositoryTests : RepositoryTester
+public class FlightRepositoryTests : TestClassBase
 {
     private FlyingDutchmanAirlinesContext _context;
     private FlightRepository _repository;
@@ -25,7 +25,7 @@ public class FlightRepositoryTests : RepositoryTester
     [TestMethod]
     public async Task GetFlightByNumberSuccess()
     {
-        var flight = await _repository.GetFlightByFlightNumber(1, 1, 2);
+        var flight = await _repository.GetFlightByFlightNumber(1);
         var dbFlight = _context.Flights.FirstOrDefault(f => f.FlightNumber == 1);
         Assert.IsNotNull(dbFlight);
         Assert.AreEqual(flight.FlightNumber, dbFlight.FlightNumber);
@@ -37,6 +37,6 @@ public class FlightRepositoryTests : RepositoryTester
     [ExpectedException(typeof(ArgumentException))]
     public async Task GetFlightByNumberFailureArgumentException()
     {
-        await _repository.GetFlightByFlightNumber(-1, 0 ,1);
+        await _repository.GetFlightByFlightNumber(-1);
     }
 }

@@ -6,17 +6,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlyingDutchmanAirlines.RepositoryLayer;
 
-public class FlightRepository : RepositoryBase
+public class FlightRepository : RepositoryBase, IFlightRepository
 {
     public FlightRepository(FlyingDutchmanAirlinesContext context) : base(context)
     {
     }
 
-    public async Task<Flight> GetFlightByFlightNumber(int flightNumber, int originAirportId, int destinationAirportId)
+    public async Task<Flight> GetFlightByFlightNumber(int flightNumber)
     {
-        if (ExtensionMethods.AnyIsNegative(flightNumber, originAirportId, destinationAirportId))
+        if (flightNumber.IsNegative())
         {
-            throw new ArgumentException("Invalid Arguments provided");
+            throw new ArgumentException("Invalid Argument provided");
         }
 
         return await Context.Flights.FirstOrDefaultAsync(f => f.FlightNumber == flightNumber)

@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace FlyingDutchman.Tests;
 
 [TestClass]
-public class CustomerRepositoryTests : RepositoryTester
+public class CustomerRepositoryTests : TestClassBase
 {
     private FlyingDutchmanAirlinesContext _context;
     private CustomerRepository _repository;

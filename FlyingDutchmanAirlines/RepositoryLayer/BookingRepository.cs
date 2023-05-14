@@ -5,7 +5,7 @@ using FlyingDutchmanAirlines.Utils;
 
 namespace FlyingDutchmanAirlines.RepositoryLayer;
 
-public class BookingRepository : RepositoryBase
+public class BookingRepository : RepositoryBase, IBookingRepository
 {
     public BookingRepository(FlyingDutchmanAirlinesContext context) : base(context)
     {

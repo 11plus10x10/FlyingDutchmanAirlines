@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FlyingDutchmanAirlines.RepositoryLayer;
 
-public class CustomerRepository : RepositoryBase
+public class CustomerRepository : RepositoryBase, ICustomerRepository
 {
     public CustomerRepository(FlyingDutchmanAirlinesContext context) : base(context)
     {
