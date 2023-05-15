@@ -1,6 +1,7 @@
 using FlyingDutchmanAirlines.DatabaseLayer;
 using FlyingDutchmanAirlines.DatabaseLayer.Models;
 using FlyingDutchmanAirlines.Exceptions;
+using FlyingDutchmanAirlines.RepositoryLayer.Interfaces;
 using FlyingDutchmanAirlines.Utils;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,5 +22,13 @@ public class FlightRepository : RepositoryBase, IFlightRepository
 
         return await Context.Flights.FirstOrDefaultAsync(f => f.FlightNumber == flightNumber)
                ?? throw new FlightNotFoundException();
+    }
+
+    public IEnumerable<Flight> GetFlights()
+    {
+        foreach (var flight in Context.Flights)
+        {
+            yield return flight;
+        }
     }
 }

@@ -1,4 +1,4 @@
-namespace FlyingDutchmanAirlines.RepositoryLayer;
+namespace FlyingDutchmanAirlines.RepositoryLayer.Interfaces;
 
 public interface IBookingRepository
 {
