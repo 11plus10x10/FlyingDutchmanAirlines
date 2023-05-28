@@ -24,8 +24,8 @@ public partial class FlyingDutchmanAirlinesContext : DbContext
 
     public virtual DbSet<Flight> Flights { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Name=ConnectionStrings:FlyingDutchmanAirlines");
+    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //     => optionsBuilder.UseSqlServer("Name=ConnectionStrings:FlyingDutchmanAirlines");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

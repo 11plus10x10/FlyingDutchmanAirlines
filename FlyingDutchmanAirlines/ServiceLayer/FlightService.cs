@@ -5,7 +5,7 @@ using FlyingDutchmanAirlines.ServiceLayer.Views;
 
 namespace FlyingDutchmanAirlines.ServiceLayer;
 
-public class FlightService
+public class FlightService : IFlightService
 {
     private readonly IFlightRepository _flightRepository;
     private readonly IAirportRepository _airportRepository;
