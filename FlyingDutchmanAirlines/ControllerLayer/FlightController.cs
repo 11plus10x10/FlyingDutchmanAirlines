@@ -1,14 +1,15 @@
 using System.Net;
 using FlyingDutchmanAirlines.Exceptions;
 using FlyingDutchmanAirlines.ServiceLayer;
+using FlyingDutchmanAirlines.ServiceLayer.Interfaces;
 using FlyingDutchmanAirlines.ServiceLayer.Views;
 using FlyingDutchmanAirlines.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlyingDutchmanAirlines.ControllerLayer;
 
-[Route("{Controller}")]
-public class FlightController : Controller
+[Route("[controller]")]
+public class FlightController : ControllerBase
 {
     private readonly IFlightService _flightService;
 
@@ -40,6 +41,7 @@ public class FlightController : Controller
         }
     }
 
+    [HttpGet("{flightNumber:int}")]
     public async Task<IActionResult> GetFlightByFlightNumber(int flightNumber)
     {
         try

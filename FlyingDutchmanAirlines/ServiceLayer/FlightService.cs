@@ -1,6 +1,7 @@
 using FlyingDutchmanAirlines.DatabaseLayer.Models;
 using FlyingDutchmanAirlines.Exceptions;
 using FlyingDutchmanAirlines.RepositoryLayer.Interfaces;
+using FlyingDutchmanAirlines.ServiceLayer.Interfaces;
 using FlyingDutchmanAirlines.ServiceLayer.Views;
 
 namespace FlyingDutchmanAirlines.ServiceLayer;

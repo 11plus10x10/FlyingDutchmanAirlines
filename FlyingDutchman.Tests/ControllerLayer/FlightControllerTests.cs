@@ -2,6 +2,7 @@ using System.Net;
 using FlyingDutchmanAirlines.ControllerLayer;
 using FlyingDutchmanAirlines.Exceptions;
 using FlyingDutchmanAirlines.ServiceLayer;
+using FlyingDutchmanAirlines.ServiceLayer.Interfaces;
 using FlyingDutchmanAirlines.ServiceLayer.Views;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -29,16 +30,7 @@ public class FlightControllerTests
         service
             .Setup(s => s.GetFlights())
             .Returns(FlightViewAsyncGenerator(returnFlightViews));
-
-        async IAsyncEnumerable<FlightView> FlightViewAsyncGenerator(IEnumerable<FlightView> views)
-        {
-            foreach (var view in views)
-            {
-                yield return view;
-            }
-        }
-
-
+        
         var controller = new FlightController(service.Object);
         var response = await controller.GetFlights() as ObjectResult;
         
@@ -49,6 +41,14 @@ public class FlightControllerTests
         Assert.IsNotNull(content);
         
         Assert.IsTrue(returnFlightViews.All(flight => content.Contains(flight)));
+        
+        async IAsyncEnumerable<FlightView> FlightViewAsyncGenerator(IEnumerable<FlightView> views)
+        {
+            foreach (var view in views)
+            {
+                yield return view;
+            }
+        }
     }
 
     [TestMethod]

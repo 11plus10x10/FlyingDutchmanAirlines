@@ -1,13 +1,13 @@
 using System.Runtime.ExceptionServices;
 using FlyingDutchmanAirlines.DatabaseLayer.Models;
 using FlyingDutchmanAirlines.Exceptions;
-using FlyingDutchmanAirlines.RepositoryLayer;
 using FlyingDutchmanAirlines.RepositoryLayer.Interfaces;
+using FlyingDutchmanAirlines.ServiceLayer.Interfaces;
 using FlyingDutchmanAirlines.Utils;
 
 namespace FlyingDutchmanAirlines.ServiceLayer;
 
-public class BookingService
+public class BookingService : IBookingService
 {
     private readonly IBookingRepository _bookingBookingRepository;
     private readonly ICustomerRepository _customerRepository;
@@ -47,7 +47,7 @@ public class BookingService
         }
     }
 
-    private async Task<Customer?> GetCustomerFromDatabase(string customerName)
+    public async Task<Customer?> GetCustomerFromDatabase(string customerName)
     {
         try
         {
@@ -64,13 +64,13 @@ public class BookingService
         }
     }
 
-    private async Task<Customer> AddCustomerToDb(string customerName)
+    public async Task<Customer> AddCustomerToDb(string customerName)
     {
         await _customerRepository.CreateCustomer(customerName);
         return await _customerRepository.GetCustomerByName(customerName);
     }
 
-    private async Task<bool> FlightExistsInDb(int flightNumber)
+    public async Task<bool> FlightExistsInDb(int flightNumber)
     {
         try
         {

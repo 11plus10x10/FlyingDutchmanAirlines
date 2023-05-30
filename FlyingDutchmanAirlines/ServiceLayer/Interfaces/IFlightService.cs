@@ -1,6 +1,6 @@
 using FlyingDutchmanAirlines.ServiceLayer.Views;
 
-namespace FlyingDutchmanAirlines.ServiceLayer;
+namespace FlyingDutchmanAirlines.ServiceLayer.Interfaces;
 
 public interface IFlightService
 {
